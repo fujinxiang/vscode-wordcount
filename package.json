@@ -1,8 +1,8 @@
 {
-	"name": "wordcount",
-	"displayName": "Word Count",
-	"version": "0.1.0",
-	"publisher": "ms-vscode",
+	"name": "fm-wordcount",
+	"displayName": "FM Word Count",
+	"version": "0.1.2",
+	"publisher": "fujinxiang",
 	"description": "Markdown Word Count Example - a status bar contribution that reports out the number of words in a Markdown document as you interact with it.",
 	"author": {
 		"name": "seanmcbreen"

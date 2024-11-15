@@ -60,7 +60,7 @@ export class WordCounter {
         docContent = docContent.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
         let wordCount = 0;
         if (docContent != "") {
-            wordCount = docContent.split(" ").length;
+            wordCount = docContent.length;
         }
 
         return wordCount;
