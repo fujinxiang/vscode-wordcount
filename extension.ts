@@ -55,15 +55,11 @@ export class WordCounter {
     public _getWordCount(doc: TextDocument): number {
         let docContent = doc.getText();
 
-        // Parse out unwanted whitespace so the split is accurate
-        docContent = docContent.replace(/(< ([^>]+)<)/g, '').replace(/\s+/g, ' ');
-        docContent = docContent.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
-        let wordCount = 0;
-        if (docContent != "") {
-            wordCount = docContent.length;
-        }
+        //过滤中文标点、换行符和空格
+        let reg = /[\u4e00-\u9fa5]/g;
+        let matches = docContent.match(reg);
 
-        return wordCount;
+        return matches ? matches.length : 0;
     }
 
     public dispose() {
