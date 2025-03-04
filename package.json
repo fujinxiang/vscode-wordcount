@@ -1,7 +1,7 @@
 {
 	"name": "fm-wordcount",
 	"displayName": "FM Word Count",
-	"version": "0.1.3",
+	"version": "0.1.4",
 	"publisher": "fujinxiang",
 	"description": "Markdown Word Count Example - a status bar contribution that reports out the number of words in a Markdown document as you interact with it.",
 	"author": {
@@ -28,6 +28,7 @@
 	},
 	"main": "./out/extension",
 	"scripts": {
+		"build": "node ./node_modules/vscode/bin/compile",
 		"vscode:prepublish": "node ./node_modules/vscode/bin/compile",
 		"compile": "node ./node_modules/vscode/bin/compile -watch -p ./"
 	},
