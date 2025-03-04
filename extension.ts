@@ -1,6 +1,6 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
-import {window, workspace, commands, Disposable, ExtensionContext, StatusBarAlignment, StatusBarItem, TextDocument} from 'vscode';
+import {window, Disposable, ExtensionContext, StatusBarAlignment, StatusBarItem, TextDocument, Position} from 'vscode';
 
 // this method is called when your extension is activated. activation is
 // controlled by the activation events defined in package.json
@@ -42,24 +42,42 @@ export class WordCounter {
 
         // Only update status if an MD file
         if (doc.languageId === "markdown") {
-            let wordCount = this._getWordCount(doc);
+            let wordCount = this._getWordCount(doc, editor.selection.active);
 
             // Update the status bar
-            this._statusBarItem.text = wordCount !== 1 ? `$(pencil) ${wordCount} Words` : '$(pencil) 1 Word';
+            this._statusBarItem.text = `$(pencil) ${wordCount} Words`;
             this._statusBarItem.show();
         } else {
             this._statusBarItem.hide();
         }
     }
 
-    public _getWordCount(doc: TextDocument): number {
+    public _getWordCount(doc: TextDocument, position: Position): string {
         let docContent = doc.getText();
+        let lines = docContent.split('\n');
+        let currentLine = position.line;
 
-        //过滤中文标点、换行符和空格
+        // Find the start of the current paragraph
+        let startLine = currentLine;
+        while (startLine > 0 && !lines[startLine].startsWith('#')) {
+            startLine--;
+        }
+
+        // Find the end of the current paragraph
+        let endLine = currentLine+1;
+        while (endLine < lines.length && !lines[endLine].startsWith('#')) {
+            endLine++;
+        }
+
+        // Get the content of the current paragraph
+        let paragraph = lines.slice(startLine, endLine).join(' ');
+
+        // 过滤中文标点、换行符和空格
         let reg = /[\u4e00-\u9fa5]/g;
-        let matches = docContent.match(reg);
+        let matches = paragraph.match(reg);
+        let allMathces = docContent.match(reg);
 
-        return matches ? matches.length : 0;
+        return `${matches ? 'c:'+matches.length : ''} ${allMathces ? 'a:'+allMathces.length : ''}`;
     }
 
     public dispose() {
